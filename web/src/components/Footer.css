@@ -1,5 +1,5 @@
 .footer {
-  background: var(--bg-surface);
+  background: var(--bg-elevated);
   border-top: 1px solid var(--border);
   padding-block: var(--space-10);
 }
@@ -57,5 +57,5 @@
   color: var(--text-secondary);
   transition: color var(--dur-fast);
 }
-.footer-link:hover { color: var(--text-primary); }
+.footer-link:hover { color: var(--green); }
 .footer-sep { color: var(--border-hover); }

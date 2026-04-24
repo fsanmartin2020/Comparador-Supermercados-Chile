@@ -2,6 +2,7 @@
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
   padding-block: var(--space-6);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .statsbar-grid {
@@ -19,13 +20,13 @@
   transition: background var(--dur-fast);
 }
 
-.statsbar-item:hover { background: var(--bg-card); }
+.statsbar-item:hover { background: var(--bg-elevated); }
 
 .statsbar-item--highlight .statsbar-icon { color: var(--green); }
-.statsbar-item--highlight .statsbar-value { color: var(--text-green); }
+.statsbar-item--highlight .statsbar-value { color: #065f46; }
 
 .statsbar-icon {
-  color: var(--text-muted);
+  color: var(--green);
   margin-top: 2px;
   flex-shrink: 0;
 }

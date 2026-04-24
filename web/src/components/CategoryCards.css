@@ -1,6 +1,7 @@
 .catcards-section {
   padding-block: var(--space-16);
   border-top: 1px solid var(--border);
+  background: var(--bg-surface);
 }
 
 .catcards-header { margin-bottom: var(--space-10); }
@@ -28,12 +29,12 @@
 .catcards-grupo-title {
   font-size: var(--text-sm);
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: var(--space-5);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
 }
 
 .catcards-grid {
@@ -48,6 +49,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur-base), border-color var(--dur-base), transform var(--dur-base);
+}
+
+.catcard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--green-border);
+  transform: translateY(-2px);
 }
 
 .catcard__icon {
@@ -78,13 +90,13 @@
   margin-top: var(--space-2);
 }
 
-.catcard__winner svg { color: var(--yellow); flex-shrink: 0; }
+.catcard__winner svg { color: #d97706; flex-shrink: 0; }
 .catcard__winner strong { color: var(--text-primary); }
 
 .catcard__avg {
   font-size: var(--text-sm);
   font-weight: 700;
-  color: var(--text-green);
+  color: #065f46;
 }
 
 .catcard__gap {

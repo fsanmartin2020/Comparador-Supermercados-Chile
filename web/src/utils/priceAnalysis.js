@@ -48,30 +48,62 @@ export function agruparPorProducto(rows) {
 }
 
 /**
- * Calcula el gap (diferencia) entre el precio más caro y el más barato
- * para un grupo de filas del mismo producto (distintas tiendas).
+ * Calcula el gap para un grupo de filas del mismo producto (distintas tiendas).
+ *
+ * Métricas:
+ *  - gapPesos / gapPct : más barato vs precio PROMEDIO (métrica principal)
+ *    → detecta si un precio es realmente barato o si otro supermercado
+ *      tiene un sobreprecio puntual que infla la brecha.
+ *  - gapVsSegundo      : más barato vs 2do más barato
+ *    → permite ver si el precio más bajo es una oferta real o
+ *      simplemente el precio normal de mercado.
+ *  - gapVsMaximo       : más barato vs más caro (referencia)
+ *
  * Retorna null si el producto aparece en menos de 2 tiendas.
  */
 export function calcularGap(filas) {
   if (filas.length < 2) return null;
 
   const sorted = [...filas].sort((a, b) => a.Precio - b.Precio);
-  const masBarato = sorted[0];
-  const masCaro = sorted[sorted.length - 1];
+  const masBarato       = sorted[0];
+  const segundoMasBarato = sorted[1];
+  const masCaro         = sorted[sorted.length - 1];
 
-  const gapPesos = masCaro.Precio - masBarato.Precio;
-  const gapPct = (gapPesos / masCaro.Precio) * 100;
+  // Promedio de todos los precios
+  const promedio = sorted.reduce((acc, f) => acc + f.Precio, 0) / sorted.length;
+
+  // Métrica principal: más barato vs promedio
+  const gapPesos = promedio - masBarato.Precio;
+  const gapPct   = promedio > 0 ? (gapPesos / promedio) * 100 : 0;
+
+  // Métrica secundaria: 1ro vs 2do más barato (¿es una oferta real?)
+  const gapVsSegundo    = segundoMasBarato.Precio - masBarato.Precio;
+  const gapVsSegundoPct = segundoMasBarato.Precio > 0
+    ? (gapVsSegundo / segundoMasBarato.Precio) * 100
+    : 0;
+
+  // Métrica de referencia: más barato vs más caro
+  const gapVsMaximo    = masCaro.Precio - masBarato.Precio;
+  const gapVsMaximoPct = masCaro.Precio > 0
+    ? (gapVsMaximo / masCaro.Precio) * 100
+    : 0;
 
   if (gapPesos <= 0) return null;
 
   return {
-    producto: masCaro.Producto,
-    marca: masCaro.Marca || masBarato.Marca || '',
-    categoria: masCaro.Categoria,
+    producto: masBarato.Producto,
+    marca: masBarato.Marca || masCaro.Marca || '',
+    categoria: masBarato.Categoria,
     masBarato,
+    segundoMasBarato,
     masCaro,
-    gapPesos,
+    promedio,
+    gapPesos,         // más barato vs promedio (principal)
     gapPct,
+    gapVsSegundo,     // más barato vs 2do más barato
+    gapVsSegundoPct,
+    gapVsMaximo,      // más barato vs más caro (referencia)
+    gapVsMaximoPct,
     todasLasTiendas: sorted, // de más barato a más caro
   };
 }
@@ -103,7 +135,7 @@ export function analizarPrecios(rows) {
     }
   }
 
-  // Ordenar por mayor gap en pesos
+  // Ordenar por mayor gap vs promedio (métrica principal)
   gaps.sort((a, b) => b.gapPesos - a.gapPesos);
   return gaps;
 }
