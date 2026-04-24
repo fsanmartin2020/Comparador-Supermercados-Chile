@@ -26,6 +26,8 @@ jobs:
       GITHUB_BRANCH: main
       GITHUB_CSV_PATH: Listado-Supermercado.csv
       MAX_WORKERS: "2"
+      # Opt-in a Node.js 24 para silenciar el warning de deprecación de Node 20.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout

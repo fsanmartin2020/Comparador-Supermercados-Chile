@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { ExternalLink, TrendingDown, ArrowRight } from 'lucide-react';
+import { ExternalLink, TrendingDown, ArrowRight, ArrowDown } from 'lucide-react';
 import { formatPrecio, formatGap, formatPct } from '../utils/formatters';
 import './GapCards.css';
 
 const SUPERMERCADO_COLORS = {
-  Jumbo:          { bg: 'rgba(34,83,180,0.12)', border: 'rgba(34,83,180,0.3)', text: '#6ba4ff' },
-  'Santa Isabel': { bg: 'rgba(220,38,38,0.12)', border: 'rgba(220,38,38,0.3)',  text: '#f87171' },
-  Unimarc:        { bg: 'rgba(124,58,237,0.12)', border: 'rgba(124,58,237,0.3)', text: '#a78bfa' },
-  Lider:          { bg: 'rgba(234,179,8,0.12)',  border: 'rgba(234,179,8,0.3)',  text: '#fbbf24' },
-  Alvi:           { bg: 'rgba(34,197,94,0.12)',  border: 'rgba(34,197,94,0.3)',  text: '#4ade80' },
-  Acuenta:        { bg: 'rgba(251,146,60,0.12)', border: 'rgba(251,146,60,0.3)', text: '#fb923c' },
+  Jumbo:          { bg: '#eff6ff', border: '#bfdbfe', text: '#1d4ed8' },
+  'Santa Isabel': { bg: '#fef2f2', border: '#fecaca', text: '#b91c1c' },
+  Unimarc:        { bg: '#f5f3ff', border: '#ddd6fe', text: '#6d28d9' },
+  Lider:          { bg: '#fffbeb', border: '#fde68a', text: '#92400e' },
+  Alvi:           { bg: '#ecfdf5', border: '#a7f3d0', text: '#065f46' },
+  Acuenta:        { bg: '#fff7ed', border: '#fed7aa', text: '#c2410c' },
 };
 
 function SuperBadge({ nombre }) {
@@ -35,7 +35,15 @@ function GapCard({ gap, index }) {
     return () => observer.disconnect();
   }, []);
 
-  const { producto, marca, categoria, masBarato, masCaro, gapPesos, gapPct, todasLasTiendas } = gap;
+  const {
+    producto, marca, categoria,
+    masBarato, segundoMasBarato, masCaro,
+    promedio,
+    gapPesos, gapPct,
+    gapVsSegundo, gapVsSegundoPct,
+    gapVsMaximo, gapVsMaximoPct,
+    todasLasTiendas,
+  } = gap;
 
   return (
     <div
@@ -51,7 +59,7 @@ function GapCard({ gap, index }) {
         </div>
         <div className="gap-card__savings-badge">
           <TrendingDown size={12} />
-          Ahorrás {formatPct(gapPct)}
+          {formatPct(gapPct)} vs promedio
         </div>
       </div>
 
@@ -82,25 +90,44 @@ function GapCard({ gap, index }) {
         })}
       </div>
 
-      {/* Footer — ahorro y link */}
-      <div className="gap-card__footer">
-        <div className="gap-card__ahorro">
-          <span className="gap-card__ahorro-label">Diferencia</span>
-          <span className="gap-card__ahorro-valor price-num">{formatGap(gapPesos)}</span>
-        </div>
-        {masBarato.Enlace && (
-          <a
-            href={masBarato.Enlace}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="gap-card__link btn-primary"
-            aria-label={`Ver ${producto} en ${masBarato.Supermercado}`}
-          >
-            Ver en {masBarato.Supermercado}
-            <ExternalLink size={13} />
-          </a>
-        )}
+      {/* Promedio de referencia */}
+      <div className="gap-card__promedio">
+        <span className="gap-card__promedio-label">Precio promedio:</span>
+        <span className="gap-card__promedio-valor price-num">{formatPrecio(promedio)}</span>
       </div>
+
+      {/* Footer — tres métricas + link */}
+      <div className="gap-card__metrics">
+        <div className="gap-card__metric gap-card__metric--primary">
+          <span className="gap-card__metric-label">vs promedio</span>
+          <span className="gap-card__metric-valor price-num">{formatGap(gapPesos)}</span>
+        </div>
+        <div className="gap-card__metric">
+          <span className="gap-card__metric-label">vs 2º más barato</span>
+          <span className="gap-card__metric-valor price-num">
+            {gapVsSegundo > 0 ? formatGap(gapVsSegundo) : '—'}
+            {gapVsSegundo > 0 && <span className="gap-card__metric-pct"> ({formatPct(gapVsSegundoPct)})</span>}
+          </span>
+        </div>
+        <div className="gap-card__metric gap-card__metric--ref">
+          <span className="gap-card__metric-label">vs más caro</span>
+          <span className="gap-card__metric-valor price-num">{formatGap(gapVsMaximo)}</span>
+        </div>
+      </div>
+
+      {/* Botón comprar */}
+      {masBarato.Enlace && (
+        <a
+          href={masBarato.Enlace}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="gap-card__link btn-primary"
+          aria-label={`Ver ${producto} en ${masBarato.Supermercado}`}
+        >
+          Ver en {masBarato.Supermercado}
+          <ExternalLink size={13} />
+        </a>
+      )}
     </div>
   );
 }
