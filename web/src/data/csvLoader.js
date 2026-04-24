@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 
 // URL pública del CSV — mismo que en config.py
 const CSV_URL =
-  'https://raw.githubusercontent.com/1bryanvalenzuela/Comparador-Supermercados-Chile/refs/heads/main/Listado-Supermercado.csv';
+  'https://raw.githubusercontent.com/fsanmartin2020/Comparador-Supermercados-Chile/refs/heads/main/Listado-Supermercado.csv';
 
 /**
  * Descarga y parsea el CSV público de GitHub.
