@@ -15,9 +15,7 @@ Estrategia:
 from __future__ import annotations
 
 import re
-from typing import Iterable
 
-from rapidfuzz import fuzz, process
 from unidecode import unidecode
 
 # Palabras irrelevantes que inflan el texto sin aportar al matching.
@@ -97,26 +95,3 @@ def normalizar_nombre(producto: str, marca: str = "") -> str:
     return " ".join(sorted(tokens))
 
 
-def encontrar_similar(
-    clave: str, candidatos: Iterable[str], umbral: int = 88
-) -> str | None:
-    """Busca la clave más parecida por fuzzy matching.
-
-    Útil para consolidar variantes que difieren por 1-2 tokens pero
-    describen el mismo producto.
-
-    Args:
-        clave: Clave normalizada a comparar.
-        candidatos: Iterable de claves ya conocidas.
-        umbral: Score mínimo (0-100) para aceptar la coincidencia.
-
-    Returns:
-        La mejor coincidencia si supera el umbral; ``None`` si no.
-    """
-    candidatos_list = list(candidatos)
-    if not candidatos_list:
-        return None
-    match = process.extractOne(clave, candidatos_list, scorer=fuzz.token_set_ratio)
-    if match and match[1] >= umbral:
-        return match[0]
-    return None

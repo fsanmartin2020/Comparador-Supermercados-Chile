@@ -20,7 +20,7 @@ LOCAL_CSV_PATH = ROOT_DIR / "Listado-Supermercado.csv"
 
 # URL pública del CSV usado como fuente de verdad histórica.
 REMOTE_CSV_URL = (
-    "https://raw.githubusercontent.com/1bryanvalenzuela/"
+    "https://raw.githubusercontent.com/fsanmartin2020/"
     "Comparador-Supermercados-Chile/refs/heads/main/Listado-Supermercado.csv"
 )
 
@@ -77,7 +77,7 @@ MAX_WORKERS = int(os.getenv("MAX_WORKERS", "3"))
 
 # Credenciales y destino de subida.
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
-GITHUB_REPO = os.getenv("GITHUB_REPO", "1bryanvalenzuela/Comparador-Supermercados-Chile")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "fsanmartin2020/Comparador-Supermercados-Chile")
 GITHUB_BRANCH = os.getenv("GITHUB_BRANCH", "main")
 GITHUB_CSV_PATH = os.getenv("GITHUB_CSV_PATH", "Listado-Supermercado.csv")
 
