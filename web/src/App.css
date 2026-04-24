@@ -1,0 +1,14 @@
+.error-banner {
+  background: var(--red-dim);
+  border-bottom: 1px solid var(--red-border);
+  color: var(--text-red);
+  padding: var(--space-4) 0;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
+
+.error-banner small {
+  color: var(--text-secondary);
+  display: block;
+  margin-top: var(--space-1);
+}

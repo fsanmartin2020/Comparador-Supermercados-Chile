@@ -1,0 +1,64 @@
+name: Scraping semanal de supermercados
+
+on:
+  schedule:
+    # Cada lunes a las 09:00 UTC (≈ 06:00 en horario de Chile continental).
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+    inputs:
+      categorias:
+        description: "Categorías separadas por espacio (opcional)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    env:
+      # El secreto se configura en Settings → Secrets → Actions.
+      GITHUB_TOKEN: ${{ secrets.SCRAPER_PAT }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+      GITHUB_CSV_PATH: Listado-Supermercado.csv
+      MAX_WORKERS: "2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Google Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar scraping
+        run: |
+          if [ -n "${{ github.event.inputs.categorias }}" ]; then
+            python main.py --categorias ${{ github.event.inputs.categorias }}
+          else
+            python main.py
+          fi
+
+      - name: Publicar logs como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-scraping-${{ github.run_id }}
+          path: logs/
+          retention-days: 14

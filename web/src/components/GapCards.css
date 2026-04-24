@@ -1,0 +1,206 @@
+.gapcards-section {
+  padding-block: var(--space-20) var(--space-16);
+}
+
+.gapcards-header {
+  margin-bottom: var(--space-8);
+}
+
+.gapcards-title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+  line-height: 1.2;
+}
+
+.gapcards-subtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+.gapcards-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.gapcards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+/* ── Gap Card ── */
+.gap-card {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.gap-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.gap-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.gap-card__marca {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.gap-card__savings-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--green-dim);
+  color: var(--text-green);
+  border: 1px solid var(--green-border);
+  border-radius: var(--radius-full);
+  padding: 2px 10px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.gap-card__nombre {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gap-card__tiendas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  background: rgba(0,0,0,0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+}
+
+.gap-card__tienda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-fast);
+}
+
+.gap-card__tienda--best {
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+}
+
+.gap-card__tienda--worst {
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+}
+
+.gap-card__tienda-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.gap-card__best-dot, .gap-card__worst-dot, .gap-card__neutral-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.gap-card__best-dot    { background: var(--green); }
+.gap-card__worst-dot   { background: var(--red); }
+.gap-card__neutral-dot { background: var(--text-muted); }
+
+.super-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.gap-card__precio { font-size: var(--text-base); }
+.text-green { color: var(--text-green); }
+.text-red   { color: var(--text-red); }
+
+.gap-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.gap-card__ahorro {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gap-card__ahorro-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.gap-card__ahorro-valor {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--text-green);
+}
+
+.gap-card__link {
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-4);
+  white-space: nowrap;
+}
+
+/* Empty state */
+.gapcards-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-16);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.gapcards-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-10);
+}
+
+@media (max-width: 1024px) {
+  .gapcards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .gapcards-grid { grid-template-columns: 1fr; }
+  .gapcards-title { font-size: var(--text-2xl); }
+}

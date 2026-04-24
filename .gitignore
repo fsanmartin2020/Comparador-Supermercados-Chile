@@ -1,0 +1,28 @@
+# Secretos
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Logs
+logs/*.log
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Artefactos Selenium / undetected-chromedriver
+*.pkl
+chromedriver*
